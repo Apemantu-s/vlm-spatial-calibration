@@ -37,3 +37,21 @@ if __name__ == "__main__":
     for r in rows:
         links[r["image"]] = r["image_link"]
     print(len(links), "images")
+
+    new = 0
+    skipped = 0
+    for name in sorted(links):
+        path = IMAGES / name
+        if path.exists():
+            skipped += 1
+            continue
+        data = get(links[name])
+        tmp = str(path) + ".part"
+        with open(tmp, "wb") as f:
+            f.write(data)
+        os.rename(tmp, path)
+        new += 1
+        time.sleep(0.2)
+        if new % 200 == 0:
+            print(new + skipped, "/", len(links), "new", new, "skipped", skipped)
+    print("done. new", new, "skipped", skipped)
