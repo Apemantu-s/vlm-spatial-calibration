@@ -21,6 +21,16 @@ def answer_ids(processor):
     return yes[0], no[0]
 
 
+def answer_logits(model, batch):
+    inputs = {}
+    for k in batch:
+        if k not in ["labels", "ids"]:
+            inputs[k] = batch[k].to(DEVICE)
+    with torch.autocast(DEVICE, dtype=torch.bfloat16):
+        out = model(**inputs)
+    return out.logits[:, -1, :].float()
+
+
 def read_jsonl(path):
     rows = []
     with open(path) as f:
