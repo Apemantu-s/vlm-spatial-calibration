@@ -1,0 +1,25 @@
+{
+  "train": {
+    "rows": 5324,
+    "images": 3461,
+    "frac_yes": 0.5186
+  },
+  "val": {
+    "rows": 742,
+    "images": 473,
+    "frac_yes": 0.527,
+    "rows_with_train_image": 0
+  },
+  "test": {
+    "rows": 3417,
+    "images": 1790,
+    "frac_yes": 0.5031,
+    "rows_with_train_image": 0
+  },
+  "test_unseen": {
+    "rows": 1489,
+    "images": 1362,
+    "frac_yes": 0.5037,
+    "rows_with_train_image": 0
+  }
+}
