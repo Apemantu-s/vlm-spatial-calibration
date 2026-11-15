@@ -44,6 +44,14 @@ def add_lora(model, rank, alpha, dropout, targets):
     return len(found)
 
 
+def lora_state(model):
+    state = {}
+    for name, p in model.named_parameters():
+        if p.requires_grad:
+            state[name] = p.detach().cpu()
+    return state
+
+
 def count_params(model):
     total = 0
     trainable = 0

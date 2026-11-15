@@ -1,12 +1,33 @@
 import argparse, os, time
+import numpy as np
 import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 from config import *
+from calibration import all_metrics
 from data import VSRDataset, Collate
-from lora import add_lora, count_params
+from lora import add_lora, lora_state, count_params
 from utils import *
+
+
+def run_val(model, loader, yes_id, no_id):
+    model.eval()
+    diffs = []
+    labels = []
+    loss_sum = 0.0
+    with torch.no_grad():
+        for batch in loader:
+            logits = answer_logits(model, batch)
+            y = batch["labels"].to(DEVICE)
+            target = torch.where(y == 1, yes_id, no_id)
+            loss_sum += F.cross_entropy(logits, target, reduction="sum").item()
+            diffs.extend((logits[:, yes_id] - logits[:, no_id]).tolist())
+            labels.extend(batch["labels"].tolist())
+    model.train()
+    m = all_metrics(np.array(diffs), np.array(labels), bins=BINS)
+    m["loss"] = round(loss_sum / len(labels), 4)
+    return m
 
 
 if __name__ == "__main__":
@@ -30,7 +51,7 @@ if __name__ == "__main__":
     print("lora on", n_layers, "layers. trainable", trainable, "of", total,
           "=", round(100 * trainable / total, 3), "%")
 
-    model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
+    model.activation_checkpointing_enable(activation_checkpointing_kwargs={"use_reentrant": False})
     model.config.text_config.use_cache = False
 
     collate = Collate(processor)
@@ -38,6 +59,8 @@ if __name__ == "__main__":
     g.manual_seed(args.seed)
     train_loader = DataLoader(VSRDataset("train", args.limit), batch_size=BATCH, shuffle=True, generator=g,
                               collate_fn=collate, num_workers=WORKERS, drop_last=True)
+    val_loader = DataLoader(VSRDataset("val", args.limit), batch_size=BATCH * 2, shuffle=False,
+                            collate_fn=collate, num_workers=WORKERS)
 
     params = []
     for p in model.parameters():
@@ -55,9 +78,12 @@ if __name__ == "__main__":
     writer = SummaryWriter(out_dir)
     writer.add_text("config", str(cfg))
 
+    history = []
+    best = None
     step = 0
     seen = 0
     running = 0.0
+    t_start = time.time()
     t_log = time.time()
 
     model.train()
@@ -98,4 +124,22 @@ if __name__ == "__main__":
                 running = 0.0
                 t_log = time.time()
 
+            if step % EVAL_EVERY == 0 or step == total_steps:
+                m = run_val(model, val_loader, yes_id, no_id)
+                m["step"] = step
+                history.append(m)
+                for k in ["loss", "accuracy", "ece"]:
+                    writer.add_scalar("val/" + k, m[k], step)
+                print("val", m)
+                if best is None or m["loss"] < best["loss"]:
+                    best = m
+                    torch.save({"lora": lora_state(model), "config": cfg, "val": m}, out_dir / "best.pt")
+                    print("saved best at step", step)
+                t_log = time.time()
+
+    summary = {"name": args.name, "config": cfg, "best": best, "history": history,
+               "train_minutes": round((time.time() - t_start) / 60, 1)}
+    if DEVICE == "cuda":
+        summary["peak_vram_gb"] = round(torch.cuda.max_memory_allocated() / 1e9, 2)
+    save_json(summary, RESULTS / "runs" / (args.name + ".json"))
     writer.close()
