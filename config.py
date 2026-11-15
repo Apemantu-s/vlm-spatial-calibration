@@ -4,6 +4,7 @@ ROOT = Path(__file__).parent
 DATA = ROOT / "data"
 IMAGES = DATA / "images"
 SPLITS = DATA / "splits"
+RUNS = ROOT / "runs"
 RESULTS = ROOT / "results"
 PREDS = RESULTS / "preds"
 
@@ -28,8 +29,11 @@ TARGETS = ["q_proj", "v_proj"]
 
 EPOCHS = 3
 BATCH = 2
+ACCUM = 8
 LR = 1e-4
+WARMUP = 0.06
 WEIGHT_DECAY = 0.0
+CLIP = 1.0
 LOG_EVERY = 10
 WORKERS = 4
 

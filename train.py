@@ -1,7 +1,8 @@
-import argparse
+import argparse, os, time
 import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
+from torch.utils.tensorboard import SummaryWriter
 from config import *
 from data import VSRDataset, Collate
 from lora import add_lora, count_params
@@ -18,6 +19,8 @@ if __name__ == "__main__":
     args = ap.parse_args()
 
     set_seed(args.seed)
+    out_dir = RUNS / args.name
+    os.makedirs(out_dir, exist_ok=True)
 
     model, processor = load_model()
     yes_id, no_id = answer_ids(processor)
@@ -26,6 +29,9 @@ if __name__ == "__main__":
     trainable, total = count_params(model)
     print("lora on", n_layers, "layers. trainable", trainable, "of", total,
           "=", round(100 * trainable / total, 3), "%")
+
+    model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
+    model.config.text_config.use_cache = False
 
     collate = Collate(processor)
     g = torch.Generator()
@@ -39,9 +45,23 @@ if __name__ == "__main__":
             params.append(p)
     opt = torch.optim.AdamW(params, lr=LR, weight_decay=WEIGHT_DECAY)
 
+    total_steps = len(train_loader) * args.epochs // ACCUM
+    warmup_steps = max(1, int(total_steps * WARMUP))
+    print("batches per epoch", len(train_loader), "optimizer steps", total_steps, "warmup", warmup_steps)
+
+    cfg = {"rank": args.rank, "alpha": args.rank * ALPHA_PER_RANK, "seed": args.seed, "epochs": args.epochs,
+           "batch": BATCH, "accum": ACCUM, "lr": LR, "warmup_steps": warmup_steps, "total_steps": total_steps,
+           "max_side": MAX_SIDE, "targets": TARGETS, "trainable_params": trainable, "model": MODEL_NAME}
+    writer = SummaryWriter(out_dir)
+    writer.add_text("config", str(cfg))
+
     step = 0
+    seen = 0
     running = 0.0
+    t_log = time.time()
+
     model.train()
+    opt.zero_grad()
     for epoch in range(args.epochs):
         for batch in train_loader:
             logits = answer_logits(model, batch)
@@ -49,12 +69,33 @@ if __name__ == "__main__":
             target = torch.where(y == 1, yes_id, no_id)
             loss = F.cross_entropy(logits, target)
 
-            loss.backward()
+            (loss / ACCUM).backward()
+            running += loss.item()
+            seen += 1
+            if seen % ACCUM != 0:
+                continue
+
+            grad_norm = torch.nn.utils.clip_grad_norm_(params, CLIP)
+            lr = lr_at(step, total_steps, warmup_steps, LR)
+            for group in opt.param_groups:
+                group["lr"] = lr
             opt.step()
             opt.zero_grad()
             step += 1
 
-            running += loss.item()
             if step % LOG_EVERY == 0:
-                print("epoch", epoch, "step", step, "loss", round(running / LOG_EVERY, 4))
+                dt = time.time() - t_log
+                log = {"train/loss": running / (LOG_EVERY * ACCUM), "train/lr": lr,
+                       "train/grad_norm": grad_norm.item(), "train/epoch": seen / len(train_loader),
+                       "train/samples_per_sec": LOG_EVERY * ACCUM * BATCH / dt}
+                if DEVICE == "cuda":
+                    log["train/peak_vram_gb"] = torch.cuda.max_memory_allocated() / 1e9
+                for k in log:
+                    writer.add_scalar(k, log[k], step)
+                print(step, "/", total_steps, "loss", round(log["train/loss"], 4), "lr", round(lr, 7),
+                      "samples/s", round(log["train/samples_per_sec"], 2),
+                      "vram", round(log.get("train/peak_vram_gb", 0), 2))
                 running = 0.0
+                t_log = time.time()
+
+    writer.close()
