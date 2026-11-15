@@ -1,8 +1,23 @@
-import json, os
+import json, math, os, random
+import numpy as np
 import torch
 from config import *
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+
+
+def set_seed(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+
+
+def lr_at(step, total_steps, warmup_steps, base_lr):
+    if step < warmup_steps:
+        return base_lr * (step + 1) / warmup_steps
+    progress = (step - warmup_steps) / max(1, total_steps - warmup_steps)
+    return base_lr * 0.5 * (1 + math.cos(math.pi * progress))
 
 
 def load_model(path=MODEL_NAME):
