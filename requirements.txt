@@ -4,4 +4,5 @@ transformers
 pillow
 numpy
 requests
+matplotlib
 pytest

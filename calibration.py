@@ -1,3 +1,4 @@
+import math
 import numpy as np
 
 
@@ -62,6 +63,17 @@ def confident_wrong(p, y, threshold=0.99):
     return float((wrong & (conf > threshold)).mean())
 
 
+def fit_temperature(logit_diff, y):
+    best_T = 1.0
+    best = nll(p_yes(logit_diff), y)
+    for T in np.exp(np.linspace(math.log(0.05), math.log(20), 400)):
+        loss = nll(p_yes(logit_diff, T), y)
+        if loss < best:
+            best = loss
+            best_T = float(T)
+    return best_T
+
+
 def all_metrics(logit_diff, y, T=1.0, bins=15):
     p = p_yes(logit_diff, T)
     return {
@@ -73,3 +85,29 @@ def all_metrics(logit_diff, y, T=1.0, bins=15):
         "confident_wrong": round(confident_wrong(p, y), 4),
         "mean_confidence": round(float(np.maximum(p, 1 - p).mean()), 4),
     }
+
+
+def bootstrap_diff(groups, y, d_a, d_b, T_a=1.0, T_b=1.0, bins=15, n_boot=1000, seed=0):
+    rng = np.random.default_rng(seed)
+    names = sorted(set(groups))
+    where = {}
+    for i in range(len(groups)):
+        where.setdefault(groups[i], []).append(i)
+
+    acc_diffs = []
+    ece_diffs = []
+    for _ in range(n_boot):
+        picked = rng.integers(0, len(names), len(names))
+        idx = []
+        for j in picked:
+            idx.extend(where[names[j]])
+        idx = np.array(idx)
+        pa = p_yes(d_a[idx], T_a)
+        pb = p_yes(d_b[idx], T_b)
+        acc_diffs.append(accuracy(pb, y[idx]) - accuracy(pa, y[idx]))
+        ece_diffs.append(ece(pb, y[idx], bins) - ece(pa, y[idx], bins))
+
+    def interval(v):
+        return [round(float(np.percentile(v, 2.5)), 4), round(float(np.percentile(v, 97.5)), 4)]
+
+    return {"accuracy_diff_ci95": interval(acc_diffs), "ece_diff_ci95": interval(ece_diffs)}

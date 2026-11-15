@@ -1,0 +1,322 @@
+{
+  "models": {
+    "base": {
+      "temperature": 2.9261,
+      "val": {
+        "raw": {
+          "n": 742,
+          "accuracy": 0.7399,
+          "ece": 0.1395,
+          "nll": 0.6747,
+          "brier": 0.1877,
+          "confident_wrong": 0.0296,
+          "mean_confidence": 0.8794
+        },
+        "temp_scaled": {
+          "n": 742,
+          "accuracy": 0.7399,
+          "ece": 0.0302,
+          "nll": 0.4911,
+          "brier": 0.1639,
+          "confident_wrong": 0.0,
+          "mean_confidence": 0.7496
+        },
+        "other_mass": 0.001
+      },
+      "test": {
+        "raw": {
+          "n": 3417,
+          "accuracy": 0.7556,
+          "ece": 0.1296,
+          "nll": 0.6739,
+          "brier": 0.1823,
+          "confident_wrong": 0.0319,
+          "mean_confidence": 0.8847
+        },
+        "temp_scaled": {
+          "n": 3417,
+          "accuracy": 0.7556,
+          "ece": 0.0193,
+          "nll": 0.4841,
+          "brier": 0.161,
+          "confident_wrong": 0.0,
+          "mean_confidence": 0.756
+        },
+        "other_mass": 0.0009
+      },
+      "test_unseen": {
+        "raw": {
+          "n": 1489,
+          "accuracy": 0.7542,
+          "ece": 0.1344,
+          "nll": 0.6716,
+          "brier": 0.1851,
+          "confident_wrong": 0.0262,
+          "mean_confidence": 0.8827
+        },
+        "temp_scaled": {
+          "n": 1489,
+          "accuracy": 0.7542,
+          "ece": 0.0335,
+          "nll": 0.4811,
+          "brier": 0.1612,
+          "confident_wrong": 0.0007,
+          "mean_confidence": 0.7578
+        },
+        "other_mass": 0.0009
+      }
+    }
+  },
+  "base_vs_main": {
+    "test": {
+      "raw": {
+        "accuracy_diff_ci95": [
+          0.0,
+          0.0
+        ],
+        "ece_diff_ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "temp_scaled": {
+        "accuracy_diff_ci95": [
+          0.0,
+          0.0
+        ],
+        "ece_diff_ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "test_unseen": {
+      "raw": {
+        "accuracy_diff_ci95": [
+          0.0,
+          0.0
+        ],
+        "ece_diff_ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "temp_scaled": {
+        "accuracy_diff_ci95": [
+          0.0,
+          0.0
+        ],
+        "ece_diff_ci95": [
+          0.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "by_relation": {
+    "test": {
+      "base": {
+        "above": {
+          "n": 105,
+          "accuracy": 0.7048
+        },
+        "at the edge of": {
+          "n": 59,
+          "accuracy": 0.7119
+        },
+        "at the left side of": {
+          "n": 133,
+          "accuracy": 0.7368
+        },
+        "away from": {
+          "n": 70,
+          "accuracy": 0.8
+        },
+        "behind": {
+          "n": 253,
+          "accuracy": 0.7194
+        },
+        "below": {
+          "n": 110,
+          "accuracy": 0.6909
+        },
+        "beside": {
+          "n": 66,
+          "accuracy": 0.803
+        },
+        "facing": {
+          "n": 105,
+          "accuracy": 0.6762
+        },
+        "far away from": {
+          "n": 91,
+          "accuracy": 0.7473
+        },
+        "in": {
+          "n": 132,
+          "accuracy": 0.8636
+        },
+        "in front of": {
+          "n": 226,
+          "accuracy": 0.7478
+        },
+        "inside": {
+          "n": 117,
+          "accuracy": 0.8547
+        },
+        "left of": {
+          "n": 70,
+          "accuracy": 0.7286
+        },
+        "next to": {
+          "n": 114,
+          "accuracy": 0.7018
+        },
+        "on": {
+          "n": 223,
+          "accuracy": 0.87
+        },
+        "on top of": {
+          "n": 207,
+          "accuracy": 0.8744
+        },
+        "right of": {
+          "n": 47,
+          "accuracy": 0.7872
+        },
+        "touching": {
+          "n": 437,
+          "accuracy": 0.7895
+        },
+        "under": {
+          "n": 228,
+          "accuracy": 0.6842
+        }
+      },
+      "main": {
+        "above": {
+          "n": 105,
+          "accuracy": 0.7048
+        },
+        "at the edge of": {
+          "n": 59,
+          "accuracy": 0.7119
+        },
+        "at the left side of": {
+          "n": 133,
+          "accuracy": 0.7368
+        },
+        "away from": {
+          "n": 70,
+          "accuracy": 0.8
+        },
+        "behind": {
+          "n": 253,
+          "accuracy": 0.7194
+        },
+        "below": {
+          "n": 110,
+          "accuracy": 0.6909
+        },
+        "beside": {
+          "n": 66,
+          "accuracy": 0.803
+        },
+        "facing": {
+          "n": 105,
+          "accuracy": 0.6762
+        },
+        "far away from": {
+          "n": 91,
+          "accuracy": 0.7473
+        },
+        "in": {
+          "n": 132,
+          "accuracy": 0.8636
+        },
+        "in front of": {
+          "n": 226,
+          "accuracy": 0.7478
+        },
+        "inside": {
+          "n": 117,
+          "accuracy": 0.8547
+        },
+        "left of": {
+          "n": 70,
+          "accuracy": 0.7286
+        },
+        "next to": {
+          "n": 114,
+          "accuracy": 0.7018
+        },
+        "on": {
+          "n": 223,
+          "accuracy": 0.87
+        },
+        "on top of": {
+          "n": 207,
+          "accuracy": 0.8744
+        },
+        "right of": {
+          "n": 47,
+          "accuracy": 0.7872
+        },
+        "touching": {
+          "n": 437,
+          "accuracy": 0.7895
+        },
+        "under": {
+          "n": 228,
+          "accuracy": 0.6842
+        }
+      }
+    },
+    "test_unseen": {
+      "base": {
+        "at the right side of": {
+          "n": 480,
+          "accuracy": 0.7771
+        },
+        "beneath": {
+          "n": 341,
+          "accuracy": 0.7155
+        },
+        "contains": {
+          "n": 343,
+          "accuracy": 0.863
+        },
+        "facing away from": {
+          "n": 180,
+          "accuracy": 0.5611
+        },
+        "far from": {
+          "n": 145,
+          "accuracy": 0.7517
+        }
+      },
+      "main": {
+        "at the right side of": {
+          "n": 480,
+          "accuracy": 0.7771
+        },
+        "beneath": {
+          "n": 341,
+          "accuracy": 0.7155
+        },
+        "contains": {
+          "n": 343,
+          "accuracy": 0.863
+        },
+        "facing away from": {
+          "n": 180,
+          "accuracy": 0.5611
+        },
+        "far from": {
+          "n": 145,
+          "accuracy": 0.7517
+        }
+      }
+    }
+  }
+}

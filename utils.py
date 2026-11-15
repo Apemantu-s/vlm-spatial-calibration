@@ -1,4 +1,4 @@
-import json
+import json, os
 import torch
 from config import *
 
@@ -29,6 +29,13 @@ def answer_logits(model, batch):
     with torch.autocast(DEVICE, dtype=torch.bfloat16):
         out = model(**inputs)
     return out.logits[:, -1, :].float()
+
+
+def save_json(obj, path):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w") as f:
+        json.dump(obj, f, indent=2)
+    print("wrote", path)
 
 
 def read_jsonl(path):

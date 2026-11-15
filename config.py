@@ -22,3 +22,5 @@ TEST_FRAC = 0.2
 
 BATCH = 2
 WORKERS = 4
+
+BINS = 15
