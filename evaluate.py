@@ -31,11 +31,12 @@ if __name__ == "__main__":
     ap.add_argument("--name", required=True)
     ap.add_argument("--ckpt", default=None)
     ap.add_argument("--path", default=MODEL_NAME)
+    ap.add_argument("--four_bit", action="store_true")
     ap.add_argument("--splits", nargs="+", default=["val", "test", "test_unseen"])
     ap.add_argument("--limit", type=int, default=None)
     args = ap.parse_args()
 
-    model, processor = load_model(args.path)
+    model, processor = load_model(args.path, args.four_bit)
     yes_id, no_id = answer_ids(processor)
 
     if args.ckpt is not None:

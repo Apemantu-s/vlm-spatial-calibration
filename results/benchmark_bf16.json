@@ -1,0 +1,8 @@
+{
+  "mode": "bf16",
+  "n": 200,
+  "weights_gb": 4.26,
+  "peak_vram_gb": 4.37,
+  "latency_ms_median": 83.7,
+  "latency_ms_p95": 118.4
+}

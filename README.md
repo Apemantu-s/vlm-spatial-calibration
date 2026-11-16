@@ -26,3 +26,21 @@ rank 16 as the main run. Rank 4 would have done as well with a quarter of the
 trainable parameters. Rank 64 took 10 to 15% longer than ranks 4 and 16.
 r16_s1 and r16_s2 took longer still, but they have the same settings as
 r16_s0, so the extra time didn't come from the rank.
+
+### Inference cost
+
+| | weights | peak VRAM | median latency | p95 latency | test accuracy | test ECE |
+|---|---|---|---|---|---|---|
+| bf16 | 4.26 GB | 4.37 GB | 83.7 ms | 118.4 ms | 0.8338 | 0.0219 |
+| 4-bit | 1.66 GB | 1.78 GB | 102.7 ms | 147.6 ms | 0.8107 | 0.0568 |
+
+Latency is model time only, at batch size 1, over 200 test rows after 10
+warm-up calls. Test ECE is raw, without temperature scaling. Both rows are
+the merged model from `export/`. 4-bit cut the weights by 61% (2.6 GB), but
+it was 23% slower at the median, most likely because every layer turns its
+weights back into bf16 before it multiplies. It also cost 2.3 points of
+accuracy and made the model more overconfident: mean confidence rose from
+0.850 to 0.861 while accuracy fell, and confidently wrong answers went from
+0.12% to 0.73% of test. A 4-bit deployment would need its own temperature,
+fitted on val with the 4-bit model. On an 8 GB card, where bf16 fits with
+room to spare, bf16 is the better choice.

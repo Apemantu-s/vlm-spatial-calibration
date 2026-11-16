@@ -20,12 +20,18 @@ def lr_at(step, total_steps, warmup_steps, base_lr):
     return base_lr * 0.5 * (1 + math.cos(math.pi * progress))
 
 
-def load_model(path=MODEL_NAME):
+def load_model(path=MODEL_NAME, four_bit=False):
     from transformers import AutoModelForImageTextToText, AutoProcessor
     processor = AutoProcessor.from_pretrained(path)
     processor.tokenizer.padding_side = "left"
-    model = AutoModelForImageTextToText.from_pretrained(path, dtype=torch.bfloat16)
-    model.to(DEVICE)
+    if four_bit:
+        from transformers import BitsAndBytesConfig
+        quant = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
+                                   bnb_4bit_compute_dtype=torch.bfloat16)
+        model = AutoModelForImageTextToText.from_pretrained(path, quantization_config=quant, device_map="cuda")
+    else:
+        model = AutoModelForImageTextToText.from_pretrained(path, dtype=torch.bfloat16)
+        model.to(DEVICE)
     return model, processor
 
 

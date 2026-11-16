@@ -1,0 +1,8 @@
+{
+  "mode": "4bit",
+  "n": 200,
+  "weights_gb": 1.66,
+  "peak_vram_gb": 1.78,
+  "latency_ms_median": 102.7,
+  "latency_ms_p95": 147.6
+}
