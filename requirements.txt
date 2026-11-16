@@ -9,3 +9,7 @@ pytest
 tensorboard
 bitsandbytes
 accelerate
+fastapi
+uvicorn
+python-multipart
+httpx2
