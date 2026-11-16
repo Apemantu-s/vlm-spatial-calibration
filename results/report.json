@@ -65,50 +65,116 @@
         },
         "other_mass": 0.0009
       }
+    },
+    "r16_s0": {
+      "temperature": 1.054,
+      "val": {
+        "raw": {
+          "n": 742,
+          "accuracy": 0.8302,
+          "ece": 0.0495,
+          "nll": 0.3642,
+          "brier": 0.1147,
+          "confident_wrong": 0.0013,
+          "mean_confidence": 0.8362
+        },
+        "temp_scaled": {
+          "n": 742,
+          "accuracy": 0.8302,
+          "ece": 0.0404,
+          "nll": 0.364,
+          "brier": 0.1148,
+          "confident_wrong": 0.0013,
+          "mean_confidence": 0.8296
+        },
+        "other_mass": 0.0002
+      },
+      "test": {
+        "raw": {
+          "n": 3417,
+          "accuracy": 0.8341,
+          "ece": 0.0196,
+          "nll": 0.3713,
+          "brier": 0.1177,
+          "confident_wrong": 0.0012,
+          "mean_confidence": 0.8503
+        },
+        "temp_scaled": {
+          "n": 3417,
+          "accuracy": 0.8341,
+          "ece": 0.0165,
+          "nll": 0.3696,
+          "brier": 0.1175,
+          "confident_wrong": 0.0009,
+          "mean_confidence": 0.8437
+        },
+        "other_mass": 0.0002
+      },
+      "test_unseen": {
+        "raw": {
+          "n": 1489,
+          "accuracy": 0.7992,
+          "ece": 0.0456,
+          "nll": 0.4357,
+          "brier": 0.1392,
+          "confident_wrong": 0.004,
+          "mean_confidence": 0.8307
+        },
+        "temp_scaled": {
+          "n": 1489,
+          "accuracy": 0.7992,
+          "ece": 0.0368,
+          "nll": 0.4323,
+          "brier": 0.1388,
+          "confident_wrong": 0.0027,
+          "mean_confidence": 0.824
+        },
+        "other_mass": 0.0002
+      }
     }
   },
   "base_vs_main": {
     "test": {
       "raw": {
         "accuracy_diff_ci95": [
-          0.0,
-          0.0
+          0.0628,
+          0.0933
         ],
         "ece_diff_ci95": [
-          0.0,
-          0.0
+          -0.1171,
+          -0.0897
         ]
       },
       "temp_scaled": {
         "accuracy_diff_ci95": [
-          0.0,
-          0.0
+          0.0628,
+          0.0933
         ],
         "ece_diff_ci95": [
-          0.0,
-          0.0
+          -0.0175,
+          0.0104
         ]
       }
     },
     "test_unseen": {
       "raw": {
         "accuracy_diff_ci95": [
-          0.0,
-          0.0
+          0.0224,
+          0.0672
         ],
         "ece_diff_ci95": [
-          0.0,
-          0.0
+          -0.1063,
+          -0.0634
         ]
       },
       "temp_scaled": {
         "accuracy_diff_ci95": [
-          0.0,
-          0.0
+          0.0224,
+          0.0672
         ],
         "ece_diff_ci95": [
-          0.0,
-          0.0
+          -0.0191,
+          0.0252
         ]
       }
     }
@@ -196,79 +262,79 @@
       "main": {
         "above": {
           "n": 105,
-          "accuracy": 0.7048
+          "accuracy": 0.7619
         },
         "at the edge of": {
           "n": 59,
-          "accuracy": 0.7119
+          "accuracy": 0.678
         },
         "at the left side of": {
           "n": 133,
-          "accuracy": 0.7368
+          "accuracy": 0.7744
         },
         "away from": {
           "n": 70,
-          "accuracy": 0.8
+          "accuracy": 0.9
         },
         "behind": {
           "n": 253,
-          "accuracy": 0.7194
+          "accuracy": 0.8379
         },
         "below": {
           "n": 110,
-          "accuracy": 0.6909
+          "accuracy": 0.7636
         },
         "beside": {
           "n": 66,
-          "accuracy": 0.803
+          "accuracy": 0.9091
         },
         "facing": {
           "n": 105,
-          "accuracy": 0.6762
+          "accuracy": 0.7714
         },
         "far away from": {
           "n": 91,
-          "accuracy": 0.7473
+          "accuracy": 0.8571
         },
         "in": {
           "n": 132,
-          "accuracy": 0.8636
+          "accuracy": 0.9318
         },
         "in front of": {
           "n": 226,
-          "accuracy": 0.7478
+          "accuracy": 0.7832
         },
         "inside": {
           "n": 117,
-          "accuracy": 0.8547
+          "accuracy": 0.9573
         },
         "left of": {
           "n": 70,
-          "accuracy": 0.7286
+          "accuracy": 0.8571
         },
         "next to": {
           "n": 114,
-          "accuracy": 0.7018
+          "accuracy": 0.8596
         },
         "on": {
           "n": 223,
-          "accuracy": 0.87
+          "accuracy": 0.9058
         },
         "on top of": {
           "n": 207,
-          "accuracy": 0.8744
+          "accuracy": 0.8792
         },
         "right of": {
           "n": 47,
-          "accuracy": 0.7872
+          "accuracy": 0.8298
         },
         "touching": {
           "n": 437,
-          "accuracy": 0.7895
+          "accuracy": 0.8421
         },
         "under": {
           "n": 228,
-          "accuracy": 0.6842
+          "accuracy": 0.8465
         }
       }
     },
@@ -298,23 +364,23 @@
       "main": {
         "at the right side of": {
           "n": 480,
-          "accuracy": 0.7771
+          "accuracy": 0.8042
         },
         "beneath": {
           "n": 341,
-          "accuracy": 0.7155
+          "accuracy": 0.8387
         },
         "contains": {
           "n": 343,
-          "accuracy": 0.863
+          "accuracy": 0.8455
         },
         "facing away from": {
           "n": 180,
-          "accuracy": 0.5611
+          "accuracy": 0.6111
         },
         "far from": {
           "n": 145,
-          "accuracy": 0.7517
+          "accuracy": 0.8138
         }
       }
     }

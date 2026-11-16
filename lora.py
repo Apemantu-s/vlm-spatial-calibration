@@ -52,6 +52,12 @@ def lora_state(model):
     return state
 
 
+def load_lora(model, state):
+    params = dict(model.named_parameters())
+    for name in state:
+        params[name].data.copy_(state[name])
+
+
 def count_params(model):
     total = 0
     trainable = 0

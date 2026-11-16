@@ -3,6 +3,7 @@ import torch
 from torch.utils.data import DataLoader
 from config import *
 from data import VSRDataset, Collate
+from lora import add_lora, load_lora
 from utils import *
 
 
@@ -28,12 +29,20 @@ def predict(model, loader, yes_id, no_id):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--name", required=True)
+    ap.add_argument("--ckpt", default=None)
     ap.add_argument("--splits", nargs="+", default=["val", "test", "test_unseen"])
     ap.add_argument("--limit", type=int, default=None)
     args = ap.parse_args()
 
     model, processor = load_model()
     yes_id, no_id = answer_ids(processor)
+
+    if args.ckpt is not None:
+        ckpt = torch.load(args.ckpt, map_location="cpu")
+        cfg = ckpt["config"]
+        add_lora(model, cfg["rank"], cfg["alpha"], 0.0, cfg["targets"])
+        load_lora(model, ckpt["lora"])
+        print("loaded", args.ckpt, "from step", ckpt["val"]["step"])
 
     os.makedirs(PREDS, exist_ok=True)
     collate = Collate(processor)

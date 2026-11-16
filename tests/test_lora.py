@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from lora import LoRALinear, add_lora, count_params
+from lora import LoRALinear, add_lora, lora_state, load_lora, count_params
 
 
 class Block(nn.Module):
@@ -44,6 +44,19 @@ def test_gradient_reaches_lora():
     layer = model[0].q_proj
     assert layer.B.grad.abs().sum() > 0
     assert layer.base.weight.grad is None
+
+
+def test_save_and_load():
+    a = make()
+    add_lora(a, 4, 8, 0.0, ["q_proj", "v_proj"])
+    for name, p in a.named_parameters():
+        if p.requires_grad:
+            p.data.normal_()
+    b = make()
+    add_lora(b, 4, 8, 0.0, ["q_proj", "v_proj"])
+    load_lora(b, lora_state(a))
+    x = torch.randn(3, 8)
+    assert torch.allclose(a(x), b(x))
 
 
 def test_base_in_bf16():
