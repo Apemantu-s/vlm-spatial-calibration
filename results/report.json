@@ -131,6 +131,270 @@
         },
         "other_mass": 0.0002
       }
+    },
+    "r4_s0": {
+      "temperature": 1.2621,
+      "val": {
+        "raw": {
+          "n": 742,
+          "accuracy": 0.8383,
+          "ece": 0.0516,
+          "nll": 0.3636,
+          "brier": 0.1129,
+          "confident_wrong": 0.004,
+          "mean_confidence": 0.8586
+        },
+        "temp_scaled": {
+          "n": 742,
+          "accuracy": 0.8383,
+          "ece": 0.0514,
+          "nll": 0.3571,
+          "brier": 0.1125,
+          "confident_wrong": 0.0013,
+          "mean_confidence": 0.8315
+        },
+        "other_mass": 0.0001
+      },
+      "test": {
+        "raw": {
+          "n": 3417,
+          "accuracy": 0.8367,
+          "ece": 0.0387,
+          "nll": 0.3842,
+          "brier": 0.1179,
+          "confident_wrong": 0.0038,
+          "mean_confidence": 0.8724
+        },
+        "temp_scaled": {
+          "n": 3417,
+          "accuracy": 0.8367,
+          "ece": 0.0252,
+          "nll": 0.3699,
+          "brier": 0.1165,
+          "confident_wrong": 0.0015,
+          "mean_confidence": 0.8448
+        },
+        "other_mass": 0.0001
+      },
+      "test_unseen": {
+        "raw": {
+          "n": 1489,
+          "accuracy": 0.8106,
+          "ece": 0.0618,
+          "nll": 0.4391,
+          "brier": 0.1345,
+          "confident_wrong": 0.0087,
+          "mean_confidence": 0.8667
+        },
+        "temp_scaled": {
+          "n": 1489,
+          "accuracy": 0.8106,
+          "ece": 0.044,
+          "nll": 0.4157,
+          "brier": 0.1318,
+          "confident_wrong": 0.0013,
+          "mean_confidence": 0.8386
+        },
+        "other_mass": 0.0001
+      }
+    },
+    "r64_s0": {
+      "temperature": 1.3605,
+      "val": {
+        "raw": {
+          "n": 742,
+          "accuracy": 0.8518,
+          "ece": 0.0485,
+          "nll": 0.3425,
+          "brier": 0.1052,
+          "confident_wrong": 0.0027,
+          "mean_confidence": 0.8835
+        },
+        "temp_scaled": {
+          "n": 742,
+          "accuracy": 0.8518,
+          "ece": 0.0411,
+          "nll": 0.3302,
+          "brier": 0.1038,
+          "confident_wrong": 0.0013,
+          "mean_confidence": 0.8496
+        },
+        "other_mass": 0.0002
+      },
+      "test": {
+        "raw": {
+          "n": 3417,
+          "accuracy": 0.8516,
+          "ece": 0.0512,
+          "nll": 0.3769,
+          "brier": 0.1123,
+          "confident_wrong": 0.0064,
+          "mean_confidence": 0.8917
+        },
+        "temp_scaled": {
+          "n": 3417,
+          "accuracy": 0.8516,
+          "ece": 0.0273,
+          "nll": 0.352,
+          "brier": 0.11,
+          "confident_wrong": 0.0009,
+          "mean_confidence": 0.8581
+        },
+        "other_mass": 0.0002
+      },
+      "test_unseen": {
+        "raw": {
+          "n": 1489,
+          "accuracy": 0.8341,
+          "ece": 0.0497,
+          "nll": 0.3989,
+          "brier": 0.1214,
+          "confident_wrong": 0.0067,
+          "mean_confidence": 0.8729
+        },
+        "temp_scaled": {
+          "n": 1489,
+          "accuracy": 0.8341,
+          "ece": 0.0336,
+          "nll": 0.378,
+          "brier": 0.1194,
+          "confident_wrong": 0.0027,
+          "mean_confidence": 0.8369
+        },
+        "other_mass": 0.0002
+      }
+    },
+    "r16_s1": {
+      "temperature": 1.3402,
+      "val": {
+        "raw": {
+          "n": 742,
+          "accuracy": 0.8585,
+          "ece": 0.052,
+          "nll": 0.3467,
+          "brier": 0.1061,
+          "confident_wrong": 0.0027,
+          "mean_confidence": 0.8799
+        },
+        "temp_scaled": {
+          "n": 742,
+          "accuracy": 0.8585,
+          "ece": 0.0465,
+          "nll": 0.3359,
+          "brier": 0.105,
+          "confident_wrong": 0.0013,
+          "mean_confidence": 0.8466
+        },
+        "other_mass": 0.0001
+      },
+      "test": {
+        "raw": {
+          "n": 3417,
+          "accuracy": 0.8484,
+          "ece": 0.0456,
+          "nll": 0.3709,
+          "brier": 0.1118,
+          "confident_wrong": 0.005,
+          "mean_confidence": 0.8932
+        },
+        "temp_scaled": {
+          "n": 3417,
+          "accuracy": 0.8484,
+          "ece": 0.0179,
+          "nll": 0.3486,
+          "brier": 0.1092,
+          "confident_wrong": 0.0018,
+          "mean_confidence": 0.8604
+        },
+        "other_mass": 0.0001
+      },
+      "test_unseen": {
+        "raw": {
+          "n": 1489,
+          "accuracy": 0.8287,
+          "ece": 0.0591,
+          "nll": 0.4254,
+          "brier": 0.1278,
+          "confident_wrong": 0.0087,
+          "mean_confidence": 0.8843
+        },
+        "temp_scaled": {
+          "n": 1489,
+          "accuracy": 0.8287,
+          "ece": 0.0333,
+          "nll": 0.3946,
+          "brier": 0.1244,
+          "confident_wrong": 0.0013,
+          "mean_confidence": 0.8495
+        },
+        "other_mass": 0.0002
+      }
+    },
+    "r16_s2": {
+      "temperature": 1.3811,
+      "val": {
+        "raw": {
+          "n": 742,
+          "accuracy": 0.8396,
+          "ece": 0.0576,
+          "nll": 0.3609,
+          "brier": 0.1099,
+          "confident_wrong": 0.0067,
+          "mean_confidence": 0.8774
+        },
+        "temp_scaled": {
+          "n": 742,
+          "accuracy": 0.8396,
+          "ece": 0.0435,
+          "nll": 0.347,
+          "brier": 0.1086,
+          "confident_wrong": 0.0013,
+          "mean_confidence": 0.8407
+        },
+        "other_mass": 0.0001
+      },
+      "test": {
+        "raw": {
+          "n": 3417,
+          "accuracy": 0.8461,
+          "ece": 0.0488,
+          "nll": 0.3772,
+          "brier": 0.1139,
+          "confident_wrong": 0.0053,
+          "mean_confidence": 0.8891
+        },
+        "temp_scaled": {
+          "n": 3417,
+          "accuracy": 0.8461,
+          "ece": 0.0243,
+          "nll": 0.3536,
+          "brier": 0.1113,
+          "confident_wrong": 0.0012,
+          "mean_confidence": 0.853
+        },
+        "other_mass": 0.0001
+      },
+      "test_unseen": {
+        "raw": {
+          "n": 1489,
+          "accuracy": 0.8193,
+          "ece": 0.074,
+          "nll": 0.4349,
+          "brier": 0.1303,
+          "confident_wrong": 0.0114,
+          "mean_confidence": 0.8859
+        },
+        "temp_scaled": {
+          "n": 1489,
+          "accuracy": 0.8193,
+          "ece": 0.0475,
+          "nll": 0.3977,
+          "brier": 0.126,
+          "confident_wrong": 0.0007,
+          "mean_confidence": 0.8487
+        },
+        "other_mass": 0.0001
+      }
     }
   },
   "base_vs_main": {

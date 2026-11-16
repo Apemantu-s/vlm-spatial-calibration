@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from lora import LoRALinear, add_lora, lora_state, load_lora, count_params
+from lora import LoRALinear, add_lora, lora_state, load_lora, merge_lora, count_params
 
 
 class Block(nn.Module):
@@ -57,6 +57,19 @@ def test_save_and_load():
     load_lora(b, lora_state(a))
     x = torch.randn(3, 8)
     assert torch.allclose(a(x), b(x))
+
+
+def test_merge_gives_same_output():
+    model = make()
+    add_lora(model, 4, 8, 0.0, ["q_proj", "v_proj"])
+    for name, p in model.named_parameters():
+        if p.requires_grad:
+            p.data.normal_()
+    x = torch.randn(3, 8)
+    before = model(x)
+    assert merge_lora(model) == 4
+    assert isinstance(model[0].q_proj, nn.Linear)
+    assert torch.allclose(model(x), before, atol=1e-5)
 
 
 def test_base_in_bf16():

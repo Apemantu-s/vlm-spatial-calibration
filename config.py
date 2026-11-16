@@ -7,6 +7,7 @@ SPLITS = DATA / "splits"
 RUNS = ROOT / "runs"
 RESULTS = ROOT / "results"
 PREDS = RESULTS / "preds"
+EXPORT = ROOT / "export"
 
 MODEL_NAME = "Qwen/Qwen3-VL-2B-Instruct"
 VSR_URL = "https://raw.githubusercontent.com/cambridgeltl/visual-spatial-reasoning/master/data/data_files/all_vsr_validated_data.jsonl"

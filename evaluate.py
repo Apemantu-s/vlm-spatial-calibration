@@ -30,11 +30,12 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--name", required=True)
     ap.add_argument("--ckpt", default=None)
+    ap.add_argument("--path", default=MODEL_NAME)
     ap.add_argument("--splits", nargs="+", default=["val", "test", "test_unseen"])
     ap.add_argument("--limit", type=int, default=None)
     args = ap.parse_args()
 
-    model, processor = load_model()
+    model, processor = load_model(args.path)
     yes_id, no_id = answer_ids(processor)
 
     if args.ckpt is not None:

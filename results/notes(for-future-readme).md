@@ -9,6 +9,8 @@ Unseen relations: 0.7542 to 0.7992, difference 0.0450 [+0.0224, +0.0672].
 
 Test ECE: 0.1296 to 0.0196, difference -0.1100 [-0.1171, -0.0897]. Mean confidence went from 0.8847 to 0.8503.
 
+Raw calibration got much better. The base model was 13 points more confident than it was accurate (0.885 against 0.756). The tuned model is within 2 points (0.850 against 0.834). Picking the checkpoint on val loss probably helped here: the best one was at step 500, while the last one, at step 998, was 5 points overconfident on val (0.896 against 0.846). Part of it is luck, though: the two extra rank 16 seeds from day 15 reached raw ECE 0.046 and 0.049. That's still far below the base model's 0.130, but 0.020 was the best of the three.
+
 ## 3. After temperature scaling
 
 T for the base model: 2.9261. T for the fine-tuned model: 1.054.

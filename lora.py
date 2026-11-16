@@ -58,6 +58,22 @@ def load_lora(model, state):
         params[name].data.copy_(state[name])
 
 
+def merge_lora(model):
+    found = []
+    for name, module in model.named_modules():
+        if isinstance(module, LoRALinear):
+            found.append(name)
+    for name in found:
+        parent_name, _, child_name = name.rpartition(".")
+        parent = model.get_submodule(parent_name)
+        layer = getattr(parent, child_name)
+        w = layer.base.weight.data
+        delta = (layer.B.data @ layer.A.data) * layer.scale
+        layer.base.weight.data = (w.float() + delta).to(w.dtype)
+        setattr(parent, child_name, layer.base)
+    return len(found)
+
+
 def count_params(model):
     total = 0
     trainable = 0
